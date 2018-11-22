@@ -6,13 +6,7 @@
 #
 ##
 FROM nginx:1.15
-RUN echo "deb http://ftp.debian.org/debian stretch-backports main" >> sources.list \
-    # 这里安装好cron不能用
-    && echo "deb http://mirrors.163.com/debian/ jessie main non-free contrib" >> sources.list \
+RUN echo "deb http://ftp.debian.org/debian stretch-backports main" >> /etc/apt/sources.list \
+    # 安装 ssl证书生成工具 https://certbot.eff.org 
     && apt-get update \
-    && apt-get install python-certbot-nginx -t stretch-backports \
-    && apt-get -y install cron \
-    && apt-get -y vim;
-
-CMD ["/usr/sbin/service","nginx","status"]
-EXPOSE 80:80
+    && apt-get install -y python-certbot-nginx -t stretch-backports ;
